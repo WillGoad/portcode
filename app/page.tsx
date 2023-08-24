@@ -30,7 +30,7 @@ export default function Home() {
             <span className='bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 text-green-500'>for developers</span>
           </h2>
           <p className={`mt-4 max-w-[30ch] text-lg opacity-50`}>
-            Github's great for code, LinkedIn for career history, but your Portcode is what you send recruiters, hiring managers, and potential clients.
+            Github&apos;s great for code, LinkedIn for career history, but your Portcode is what you send recruiters, hiring managers, and potential clients.
           </p>
         </div>
 
