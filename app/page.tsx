@@ -44,7 +44,7 @@ export default function Home() {
                 height={100}
               />
             </a>
-            {menuOpen && <div className="hidden lg:flex flex-row items-center justify-center gap-5 transition-all">
+            {menuOpen && <div className="hidden lg:flex flex-row items-center justify-center gap-3 transition-all">
               <p>Signup</p>
               <p>•</p>
               <p>Login</p>
