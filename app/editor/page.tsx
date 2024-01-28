@@ -265,7 +265,7 @@ export default function LiveEditorPage() {
                   />}
               </div>
               <div className="w-full sm:w-96">
-                {form && form.getValues("experiences") && <ShowOffSection title={"Roles"} experiences={form.getValues("experiences")} />}
+                {form && form.getValues("experiences") && <ShowOffSection title={"Roles"} experiences={form.getValues("experiences")?.map(exp => exp.value)} />}
               </div>
             </div>
           </div>
