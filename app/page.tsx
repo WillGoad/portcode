@@ -45,8 +45,8 @@ export default function Home() {
               />
             </a>
             {menuOpen && <div className="hidden lg:flex flex-row items-center justify-center gap-5 transition-all">
-              <p><a href='https://app.portco.de/onboarding'>Signup</a></p>
-              <p><a href='https://app.portco.de/login'>Login</a></p>
+              <p><a href='https://portco.de/onboarding'>Signup</a></p>
+              <p><a href='https://portco.de/login'>Login</a></p>
               <p><a href='https://portco.de/stats'>Stats for Hackers</a></p>
             </div>}
             {!menuOpen && <svg xmlns="http://www.w3.org/2000/svg" className="hidden lg:block" height="1em" viewBox="0 0 448 512" onClick={toggleMenu}><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z" /></svg>}
@@ -79,7 +79,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col items-center w-full max-w-5xl mb-32 mt-8 lg:flex-row justify-start gap-4">
-                <a href="https://app.portco.de/onboarding" className="w-full mb-4 text-center text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg px-2.5 py-2 lg:w-auto lg:mb-0 lg:mr-4 hover:from-green-500 hover:to-blue-500 hover:border-green-500 hover:border-2 transition duration-700 hover:animate-pulse">
+                <a href="https://portco.de/onboarding" className="w-full mb-4 text-center text-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-green-500 rounded-lg px-2.5 py-2 lg:w-auto lg:mb-0 lg:mr-4 hover:from-green-500 hover:to-blue-500 hover:border-green-500 hover:border-2 transition duration-700 hover:animate-pulse">
                   {action1Text}
                 </a>
                 <a className="w-full text-center text-lg font-semibold rounded-lg px-2.5 py-2 lg:w-auto cursor-pointer" onClick={onExampleModeOn}>
@@ -87,8 +87,8 @@ export default function Home() {
                 </a>
               </div>
               <div className="lg:hidden flex flex-row flex-wrap items-center justify-center gap-5 transition-all">
-                <p><a href='https://app.portco.de/onboarding'>Signup</a></p>
-                <p><a href='https://app.portco.de/login'>Login</a></p>
+                <p><a href='https://portco.de/onboarding'>Signup</a></p>
+                <p><a href='https://portco.de/login'>Login</a></p>
                 <p><a href='https://portco.de/stats'>Stats for Hackers</a></p>
               </div>
             </div>
