@@ -13,17 +13,17 @@ type Experience = {
 
 interface ShowOffSectionProps {
     title: string;
-    experiences: string[] | undefined;
+    experiences: { value: string; }[] | undefined;
 }
 
 export function ShowOffSection({ title, experiences }: ShowOffSectionProps) {
     const ExperienceArray: Experience[] = experiences ? experiences.map((experience) => {
-        if(!experience) return ({
+        if(!experience || !experience.value) return ({
             institution: "",
             description: "",
             dates: "",
         })
-        const [institution, dates, description] = experience.split(",")
+        const [institution, dates, description] = experience.value.split(",")
         return {
             institution,
             description,
