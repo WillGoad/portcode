@@ -1,4 +1,5 @@
 'use client';
+import { Ad } from '@/components/misc/ad';
 import { HighlightedRepo } from '@/components/misc/highlighted-repo';
 import { ShowOffSection } from '@/components/misc/show-off-section';
 import { useToast } from '@/components/ui/use-toast';
@@ -56,6 +57,9 @@ if (!displayname) {
 };
 return (
   <div className="flex-1 flex flex-start items-center flex-col mt-16">
+    <div className="w-5/6 sm:w-96">
+      <Ad />
+    </div>
     {qrCode && <img src={qrCode} alt="QR Code" />}
     <h2 className="text-2xl font-bold mb-2">{displayname}</h2>
     <p className="text-gray-400 mb-8">@{username}</p>
