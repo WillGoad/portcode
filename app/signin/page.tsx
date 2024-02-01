@@ -117,7 +117,7 @@ export default function Onboarding() {
   };
 
   //Function for when the user clicks the send code button
-  const onSendCode = (e: React.MouseEvent<HTMLInputElement>) => {
+  const onSendCode = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     //Check email is valid
     if (email.includes("@") && email.includes(".") && email.length > 5) {
@@ -126,7 +126,7 @@ export default function Onboarding() {
   };
 
   //Function for when user clicks submit Code button
-  const onSubmitCode = (e: React.MouseEvent<HTMLInputElement>) => {
+  const onSubmitCode = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (
       code.length === 6 &&
