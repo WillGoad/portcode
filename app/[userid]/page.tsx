@@ -63,14 +63,14 @@ return (
     {qrCode && <img src={qrCode} alt="QR Code" />}
     <h2 className="text-2xl font-bold mb-2">{displayname}</h2>
     <p className="text-gray-400 mb-8">@{username}</p>
-    <div className="w-5/6 sm:w-96">
+    {highlightedRepo && <div className="w-5/6 sm:w-96">
       <HighlightedRepo
         highlightedRepo={highlightedRepo}
       />
-    </div>
-    <div className="w-5/6 sm:w-96">
+    </div>}
+    {experiences && <div className="w-5/6 sm:w-96">
       <ShowOffSection title={"Roles"} experiences={experiences} />
-    </div>
+    </div>}
   </div>
 );
 
