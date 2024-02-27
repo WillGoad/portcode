@@ -5,6 +5,7 @@ import { ShowOffSection } from '@/components/misc/show-off-section';
 import { useToast } from '@/components/ui/use-toast';
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react';
+import { set } from 'react-hook-form';
 
 export default function Page() {
   const params = useParams()
@@ -15,6 +16,8 @@ export default function Page() {
   const [username, setUsername] = useState('');
   const [highlightedRepo, setHighlightedRepo] = useState('');
   const [experiences, setExperiences] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [skills, setSkills] = useState([]);
   const [qrCode, setQrCode] = useState<string>('');
 
   useEffect(() => {
@@ -26,12 +29,14 @@ export default function Page() {
       const response = await fetch(`https://api.portco.de/user/${params.userid}`);
       //If status code 200 then change tab
       if (response.status === 200) {
-        const { displayname, username, highlightedRepo, experiences, qrcodeuri } = await response.json();
+        const { displayname, username, highlightedRepo, experiences, education, skills, qrcodeuri } = await response.json();
         setDisplayname(displayname);
         setUsername(username);
         setHighlightedRepo(highlightedRepo);
         setExperiences(experiences);
         setQrCode(qrcodeuri);
+        setEducation(education);
+        setSkills(skills);
       } else {
         toast({
           title: `User ${params.userid} not found!`,
@@ -69,7 +74,10 @@ return (
       />
     </div>}
     {experiences && <div className="w-5/6 sm:w-96">
-      <ShowOffSection title={"Roles"} experiences={experiences} />
+      <ShowOffSection title={"Experience"} experiences={experiences} />
+    </div>}
+    {education && <div className="w-5/6 sm:w-96">
+      <ShowOffSection title={"Education"} experiences={education} />
     </div>}
   </div>
 );

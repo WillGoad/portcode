@@ -43,6 +43,19 @@ const profileFormSchema = z.object({
       })
     )
     .optional(),
+  education: z
+    .array(
+      z.object({
+        //Check for 2 commas if not return error
+        value: z.string().refine((value) => {
+          const commas = value.match(/,/g)?.length
+          return commas === 2 || value === ""
+        }, { message: "An experience requires 2 commas" }),
+      })
+    )
+    .optional(),
+  // Add skills but is only one word per skill so no need to check for commas
+  skills: z.array(z.object({ value: z.string() })).optional(),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
@@ -51,6 +64,8 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 const defaultValues: Partial<ProfileFormValues> = {
   highlightedRepo: "",
   experiences: [],
+  education: [],
+  skills: [],
 }
 
 export default function LiveEditorPage() {
@@ -90,14 +105,22 @@ export default function LiveEditorPage() {
       });
       //If status code 200 then change tab
       if (response.status === 200) {
-        const { displayname, username, email, highlightedRepo, experiences } = await response.json();
+        const { displayname, username, email, highlightedRepo, experiences, education, skills } = await response.json();
         setDisplayName(displayname);
         setUsername(username);
         setEmail(email);
         form.setValue("highlightedRepo", highlightedRepo);
         const expArray: string[] = experiences;
+        const edArray: string[] = education;
+        const skiArray: string[] = skills;
         expArray.forEach((exp, index) => {
           form.setValue(`experiences.${index}.value`, exp);
+        });
+        edArray.forEach((ed, index) => {
+          form.setValue(`education.${index}.value`, ed);
+        });
+        skiArray.forEach((ski, index) => {
+          form.setValue(`skills.${index}.value`, ski);
         });
         form.reset({
           ...form.getValues()
@@ -146,7 +169,9 @@ export default function LiveEditorPage() {
         },
         body: JSON.stringify({
           highlightedRepo: form.getValues("highlightedRepo"),
-          experiences: form.getValues("experiences")?.map((item: any) => item.value),
+          experiences: form.getValues("experiences")?.map((item: any) => item.value).filter((item: string) => item !== ""),
+          education: form.getValues("education")?.map((item: any) => item.value).filter((item: string) => item !== ""),
+          skills: form.getValues("skills")?.map((item: any) => item.value).filter((item: string) => item !== ""),
         })
       });
       //If status code 200 then change tab
@@ -171,10 +196,17 @@ export default function LiveEditorPage() {
     mode: "onChange",
   })
 
-  const { fields, append } = useFieldArray({
+  // For experiences
+  const { fields: experienceFields, append: appendExperience, remove: removeExperience } = useFieldArray({
     name: "experiences",
     control: form.control,
-  })
+  });
+
+  // For education
+  const { fields: educationFields, append: appendEducation, remove: removeEducation } = useFieldArray({
+    name: "education",
+    control: form.control,
+  });
 
   return (
     <>
@@ -218,7 +250,7 @@ export default function LiveEditorPage() {
                     )}
                   />
                   <div>
-                    {fields.map((field, index) => (
+                    {experienceFields.map((field, index) => (
                       <FormField
                         control={form.control}
                         key={field.id}
@@ -232,7 +264,11 @@ export default function LiveEditorPage() {
                               Add jobs/work experience/internships. Each line is an experience, with name, dates and description dilineated by a comma.
                             </FormDescription>
                             <FormControl>
-                              <Input {...field} />
+                              <Input {...field} onBlur={(e) => {
+                                if (e.target.value === '') {
+                                  removeExperience(index);
+                                }
+                              }} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -244,9 +280,45 @@ export default function LiveEditorPage() {
                       variant="outline"
                       size="sm"
                       className="mt-2"
-                      onClick={() => append({ value: "" })}
+                      onClick={() => appendExperience({ value: "" })}
                     >
                       Add Experience
+                    </Button>
+                  </div>
+                  <div>
+                    {educationFields.map((field, index) => (
+                      <FormField
+                        control={form.control}
+                        key={field.id}
+                        name={`education.${index}.value`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className={cn(index !== 0 && "sr-only")}>
+                              Education
+                            </FormLabel>
+                            <FormDescription className={cn(index !== 0 && "sr-only")}>
+                              Add educational experiences. Each line is an experience, with name, dates and description dilineated by a comma.
+                            </FormDescription>
+                            <FormControl>
+                              <Input {...field} onBlur={(e) => {
+                                if (e.target.value === '') {
+                                  removeEducation(index);
+                                }
+                              }} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => appendEducation({ value: "" })}
+                    >
+                      Add Education
                     </Button>
                   </div>
                   <Button type="submit">Update profile</Button>
@@ -266,6 +338,9 @@ export default function LiveEditorPage() {
               </div>
               <div className="w-full sm:w-96">
                 {form && form.getValues("experiences") && <ShowOffSection title={"Roles"} experiences={form.getValues("experiences")?.map(exp => exp.value)} />}
+              </div>
+              <div className="w-full sm:w-96">
+                {form && form.getValues("education") && <ShowOffSection title={"Education"} experiences={form.getValues("education")?.map(exp => exp.value)} />}
               </div>
             </div>
           </div>
