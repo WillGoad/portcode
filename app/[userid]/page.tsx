@@ -5,7 +5,6 @@ import { ShowOffSection } from '@/components/misc/show-off-section';
 import { useToast } from '@/components/ui/use-toast';
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react';
-import { set } from 'react-hook-form';
 
 export default function Page() {
   const params = useParams()
@@ -73,10 +72,10 @@ return (
         highlightedRepo={highlightedRepo}
       />
     </div>}
-    {experiences && <div className="w-5/6 sm:w-96">
+    {experiences.length > 0 && <div className="w-5/6 sm:w-96">
       <ShowOffSection title={"Experience"} experiences={experiences} />
     </div>}
-    {education && <div className="w-5/6 sm:w-96">
+    {education.length > 0 && <div className="w-5/6 sm:w-96">
       <ShowOffSection title={"Education"} experiences={education} />
     </div>}
   </div>
