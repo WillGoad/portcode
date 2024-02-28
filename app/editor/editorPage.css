@@ -1,0 +1,9 @@
+.svg-icon {
+    visibility: hidden;
+}
+
+
+.input-field:hover + .svg-icon,
+.input-field:focus + .svg-icon {
+  visibility: visible; /* Show the SVG when the input is hovered over or focused */
+}

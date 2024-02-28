@@ -1,10 +1,15 @@
 'use client';
 
+import './editorPage.css';
+
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import { useFieldArray, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGripVertical } from '@fortawesome/free-solid-svg-icons';
 
 import { Button } from "@/components/ui/button"
 import {
@@ -24,7 +29,7 @@ import { UserNav } from "@/components/misc/user-nav"
 import { HighlightedRepo } from "@/components/misc/highlighted-repo";
 import { ShowOffSection } from "@/components/misc/show-off-section";
 
-import { cn } from "@/lib/utils";
+import DNDArrayInput from '@/components/ui/dnd-array-input';
 
 
 const profileFormSchema = z.object({
@@ -208,6 +213,8 @@ export default function LiveEditorPage() {
     control: form.control,
   });
 
+
+
   return (
     <>
       <div className="flex-col md:flex">
@@ -249,78 +256,9 @@ export default function LiveEditorPage() {
                       </FormItem>
                     )}
                   />
-                  <div>
-                    {experienceFields.map((field, index) => (
-                      <FormField
-                        control={form.control}
-                        key={field.id}
-                        name={`experiences.${index}.value`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className={cn(index !== 0 && "sr-only")}>
-                              Experience
-                            </FormLabel>
-                            <FormDescription className={cn(index !== 0 && "sr-only")}>
-                              Add jobs/work experience/internships. Each line is an experience, with name, dates and description dilineated by a comma.
-                            </FormDescription>
-                            <FormControl>
-                              <Input {...field} onBlur={(e) => {
-                                if (e.target.value === '') {
-                                  removeExperience(index);
-                                }
-                              }} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="mt-2"
-                      onClick={() => appendExperience({ value: "" })}
-                    >
-                      Add Experience
-                    </Button>
-                  </div>
-                  <div>
-                    {educationFields.map((field, index) => (
-                      <FormField
-                        control={form.control}
-                        key={field.id}
-                        name={`education.${index}.value`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className={cn(index !== 0 && "sr-only")}>
-                              Education
-                            </FormLabel>
-                            <FormDescription className={cn(index !== 0 && "sr-only")}>
-                              Add educational experiences. Each line is an experience, with name, dates and description dilineated by a comma.
-                            </FormDescription>
-                            <FormControl>
-                              <Input {...field} onBlur={(e) => {
-                                if (e.target.value === '') {
-                                  removeEducation(index);
-                                }
-                              }} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="mt-2"
-                      onClick={() => appendEducation({ value: "" })}
-                    >
-                      Add Education
-                    </Button>
-                  </div>
+
+                  <DNDArrayInput title='Experience' description='Add jobs/work experience/internships. Each line is an experience, with name, dates and description dilineated by a comma.' appendString='Add Experience' fieldName='experiences' form={form} fields={experienceFields} append={appendExperience} remove={removeExperience} />
+                  <DNDArrayInput title='Education' description='Add educational experiences. Each line is an experience, with name, dates and description dilineated by a comma.' appendString='Add Education' fieldName='education' form={form} fields={educationFields} append={appendEducation} remove={removeEducation} />
                   <Button type="submit">Update profile</Button>
                 </form>
               </Form>
